@@ -12,7 +12,7 @@ The above plot shows the mean number of IR beam breaks at a 15-minutes frequency
 ### Interactive data viewer
 
 ## Exploratory data analysis
-
+Toward developing models for forecasting activity, I performed ETS decomposition, data stationarity test, ACF and PACF to gain insights into the underlying structure of the data, which can inform the choice of forecasting models and improve the accuracy of the forecasts.
 ### Activity data decomposition (additive ETS decomposition)
 ![](pic/ETS_decomposition.png)
 
@@ -21,4 +21,4 @@ The above plot shows the mean number of IR beam breaks at a 15-minutes frequency
 ### ACF and PACF
 ![](pic/ACF_PACF.png)
 
-## Predict future activity
+## Forecast future activity
