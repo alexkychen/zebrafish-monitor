@@ -1,5 +1,4 @@
 # Zebrafish Activity Monitor System
-
 The system that utilizes infrared (IR) sensors to measure the activity of zebrafish. It is designed to collect data on the movement and behavior of the fish in real-time, and use this information to provide insights into the health and well-being of the fish. The IR sensors are used to detect the movement of individual fish, which can be used as a proxy for activity levels. The system may also machine learning algorithms or statistical models to process the data and generate predictions about future activity levels. The goal of the project is to provide a simple and reliable way to monitor zebrafish activity and to help researchers and facility managers understand and manage the health of the fish in their care.
 
 ## Activity levels were quantified by counting the number of IR beam breaks.
