@@ -15,10 +15,38 @@ The above plot shows the mean number of IR beam breaks at a 15-minutes frequency
 Toward developing models for forecasting activity, I performed ETS decomposition, data stationarity test, ACF and PACF to gain insights into the underlying structure of the data, which can inform the choice of forecasting models and improve the accuracy of the forecasts.
 ### Activity data decomposition (additive ETS decomposition)
 ![](pic/ETS_decomposition.png)
-
+From the above plot, the data exhibits a clear seasonal pattern or repeating pattern over a specific time interval (i.e., daily). The trend component slightly varied across the 6 days without a strong upward or downward long-term trend.   
 ### Data stationarity
+**Augmented Dickey-Fuller test results**: Because the *p*-value is less than the significant level (0.05), the time series is stationary. As a result, there is no need to perform differencing on the time series when applying a ARIMA based model for forecasting.  
+
+| description | value |
+|---|---|
+| test statistic | -4.34 |
+| *p*-value | 0.000382 |
+| # lag used | 1 |
+| number of obs. | 575 |
+| Critical value (1%) | -3.44 |
+| Critical value (5%) | -2.87 |
+| Critical value (10%)| -2.57 |
+
+Note: ADF test null hypothesis: time series has a root unit and is non-stationary.
 
 ### ACF and PACF
 ![](pic/ACF_PACF.png)
+ACF and PACF helps us to determine the order of MA component and the order of AR component in an ARIMA model. The results of ACF plot show the time series has a seasonal cycle at 96 lags and the correlation of data and its lagged version gradually converged, indicating the q term for an ARIMA model could be small, where as the PACF plot shows a significant drop at lag 2, indicating the p term for an ARIMA model could 1 or 2. Regardless, the optimal p and q terms of an ARIMA model can be determined using grid search and AIC scores.   
 
 ## Forecast future activity
+
+### Split data into training and test sets
+
+### Forecast via SARIMA
+
+### Forecast via SARIMAX
+
+### Forecast via Prophet
+
+### Forecast via LSTM
+
+### Comparison of model performance
+
+## Conclusions
