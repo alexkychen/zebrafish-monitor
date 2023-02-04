@@ -17,7 +17,7 @@ Toward developing models for forecasting activity, I performed ETS decomposition
 ![](pic/ETS_decomposition.png)
 From the above plot, the data exhibits a clear seasonal pattern or repeating pattern over a specific time interval (i.e., daily). The trend component slightly varied across the 6 days without a strong upward or downward long-term trend.   
 ### Data stationarity
-**Augmented Dickey-Fuller test results**: Because the *p*-value is less than the significant level (0.05), the time series is stationary. As a result, there is no need to perform differencing on the time series when applying a ARIMA based model for forecasting.  
+**Augmented Dickey-Fuller test results**: Because the *p*-value is less than the significant level (0.05), the time series is stationary. As a result, there is no need to perform differencing on the time series when applying an ARIMA based model for forecasting.  
 
 | description | value |
 |---|---|
@@ -38,6 +38,10 @@ ACF and PACF helps us to determine the order of MA component and the order of AR
 ## Forecast future activity
 
 ### Split data into training and test sets
+![](pic/datasplit.png)
+To develop forecasting models and evaluate model performance, I used a time-series cross-validation technique called "rolling window" by using 5 consecutive days as training data and the 6th day as test data.
+
+Using a rolling window approach allows you to train and test the model on different parts of the data, which helps to reduce overfitting and improve the robustness of the model. The size of the window (i.e. 5 days) will impact the accuracy of the model, so it may be necessary to experiment with different window sizes to find the best results. Additionally, by using a rolling window approach, you can assess the model's performance over multiple time periods and assess its ability to generalize to future data.
 
 ### Forecast via SARIMA
 
@@ -48,5 +52,7 @@ ACF and PACF helps us to determine the order of MA component and the order of AR
 ### Forecast via LSTM
 
 ### Comparison of model performance
+
+### Forecast into the future
 
 ## Conclusions
