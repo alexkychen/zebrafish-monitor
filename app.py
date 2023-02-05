@@ -113,7 +113,9 @@ def ets_decomposition(df, choices, freq):
     #co1.metric(label="Period",value=calculated_period, help="Period = 1440 / freq (min)")
     try:
         results_add = seasonal_decompose(df[selected_data], model=selected_model, period=calculated_period)
-        co2.plotly_chart(results_add.plot(),  use_container_width=True)
+        co2.write(results_add)
+        co2.write(results_add.plot())
+        #co2.plotly_chart(results_add.plot(),  use_container_width=True)
     except:
         co2.error("Error: Can't generate plots. Please select data or adjust parameters (e.g., Resample frequency).")
     return selected_data
@@ -126,11 +128,13 @@ def acf_pacf(df, selected_data):
     co1.caption("Y-axis: Correlation coefficient")
     co1.caption("X-axis: Lag number")
     try:
-        co2.pyplot(plot_acf(df[selected_data], lags=selected_lags))
+        acf = plot_acf(df[selected_data], lags=selected_lags)
+        #co2.pyplot(plot_acf(df[selected_data], lags=selected_lags))
     except:
         co2.error("Error: Can't generate ACF plot. Please re-select data or adjust parameters")
     try:
-        co3.pyplot(plot_pacf(df[selected_data], lags=selected_lags))
+        pacf = plot_pacf(df[selected_data], lags=selected_lags, method="ywm")
+        #co3.pyplot(plot_pacf(df[selected_data], lags=selected_lags))
     except:
         co3.error("Error: Can't generate PACF plot. Please re-select data or adjust parameters")
 
