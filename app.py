@@ -114,7 +114,7 @@ def ets_decomposition(df, choices, freq):
     try:
         results_add = seasonal_decompose(df[selected_data], model=selected_model, period=calculated_period)
         co2.write(results_add)
-        co2.write(results_add.plot())
+        co2.plotly_chart(results_add.plot())
         #co2.plotly_chart(results_add.plot(),  use_container_width=True)
     except:
         co2.error("Error: Can't generate plots. Please select data or adjust parameters (e.g., Resample frequency).")

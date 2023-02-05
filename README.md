@@ -10,6 +10,7 @@ This is achieved by using a pair of IR emitter and receiver, with the emitter em
 The above plot shows the mean number of IR beam breaks at a 15-minutes frequency over a period of 6 days, which is used to indicate the activity levels of zebrafish. The data displayed in the plot exhibit a clear day-night cycle pattern, with the number of beam breaks fluctuating over time. The highest activity levels are shown as spikes in the data and occur during feeding time, suggesting that the fish are more active when they are being fed. The day-night cycle pattern can be explained by the natural behavior of the fish, which are more active during the day and rest at night (gray area). The plot provides a visual representation of the activity levels of the fish over time, which can be used to gain insights into their behavior and health.
 
 ### Interactive data viewer
+https://zebrafish-monitor.streamlit.app/
 
 ## Exploratory data analysis
 Toward developing models for forecasting activity, I performed ETS decomposition, data stationarity test, ACF and PACF to gain insights into the underlying structure of the data, which can inform the choice of forecasting models and improve the accuracy of the forecasts.
