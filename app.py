@@ -16,6 +16,13 @@ st.write("""<style>
             </style>""", unsafe_allow_html = True)
 
 st.title("Zebrafish Activity Data Viewer")
+st.text("Demonstration of data analyses for Zebrafish Activity Monitor System")
+
+#display some info at the bottom of side bar
+def site_info():
+    st.markdown("---")
+    st.markdown("Developer: Alex Chen ([Contact me](mailto:alexkychen@gmail.com))")
+    st.markdown("Copyright © 2023")
 
 @st.cache
 def read_data():
@@ -49,6 +56,8 @@ def sidebar_param(options, first_date, last_date):
         vlines[0] = st.checkbox("9 am")
         vlines[1] = st.checkbox("12 pm")
         vlines[2] = st.checkbox("16 pm")
+
+        site_info()
 
     return choices, start_date, end_date, freq, vlines
 
