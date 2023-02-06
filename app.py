@@ -127,7 +127,7 @@ def ets_decomposition(df, choices, freq):
         fig.update_yaxes(title_text="Trend", row=2, col=1)
         fig.update_yaxes(title_text="Seasonal", row=3, col=1)
         fig.update_yaxes(title_text="Residual", row=4, col=1)
-        fig.update_layout(height=600, showlegend=False)
+        fig.update_layout(height=600, showlegend=False, margin=dict(t=35))
         co2.plotly_chart(fig, use_container_width=True)
         #st.plotly_chart(results_add.plot())
     except:
@@ -141,15 +141,12 @@ def acf_pacf(df, selected_data):
     selected_lags = co1.number_input("Enter max. lags to plot", min_value=10, max_value=250, value=100)
     co1.caption("Y-axis: Correlation coefficient")
     co1.caption("X-axis: Lag number")
-    plot_acf(df[selected_data], lags=selected_lags)
     try:
-        acf = plot_acf(df[selected_data], lags=selected_lags)
-        #co2.pyplot(plot_acf(df[selected_data], lags=selected_lags))
+        co2.pyplot(plot_acf(df[selected_data], lags=selected_lags))
     except:
         co2.error("Error: Can't generate ACF plot. Please re-select data or adjust parameters")
     try:
-        pacf = plot_pacf(df[selected_data], lags=selected_lags, method="ywm")
-        #co3.pyplot(plot_pacf(df[selected_data], lags=selected_lags))
+        co3.pyplot(plot_pacf(df[selected_data], lags=selected_lags))
     except:
         co3.error("Error: Can't generate PACF plot. Please re-select data or adjust parameters")
 
