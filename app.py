@@ -221,23 +221,23 @@ def model_evaluations(df, start_date, end_date, freq, selected_data):
             s = len(train)
             e = len(train) + len(test) - 1
             #forecast with SARIMA
-            if "SARIMA" in models:
-                with st.spinner("Training a SARIMA model...it may take a while...please wait."):
-                    model = SARIMAX(train[selected_data], order=(2,0,1), seasonal_order=(1,0,2,nobs)).fit()
-                prediction = model.get_prediction(start=s, end=e)
-                st.write(prediction.summary_frame())
-            if "SARIMAX" in models:
-                with st.spinner("Training a SARIMAX model...it may take a moment...please wait."):
-                    eval_df["feeding"] = [0]*len(eval_df)
-                    eval_df.loc[eval_df.index.time == datetime.time(9),"feeding"] = 1
-                    eval_df.loc[eval_df.index.time == datetime.time(12),"feeding"] = 1
-                    eval_df.loc[eval_df.index.time == datetime.time(16),"feeding"] = 1
-                    train = eval_df[:-nobs]
-                    test = eval_df[-nobs:]
-                    modelx = SARIMAX(train[selected_data], exog=train["feeding"], order=(2,0,1), seasonal_order=(1,0,2,nobs)).fit()
-                exog = test[["feeding"]]
-                predictionx = modelx.get_prediction(start=s, end=e, exog=exog)
-                st.write(predictionx.summary_frame())
+            # if "SARIMA" in models:
+            #     with st.spinner("Training a SARIMA model...it may take a while...please wait."):
+            #         model = SARIMAX(train[selected_data], order=(2,0,1), seasonal_order=(1,0,2,nobs)).fit()
+            #     prediction = model.get_prediction(start=s, end=e)
+            #     st.write(prediction.summary_frame())
+            # if "SARIMAX" in models:
+            #     with st.spinner("Training a SARIMAX model...it may take a moment...please wait."):
+            #         eval_df["feeding"] = [0]*len(eval_df)
+            #         eval_df.loc[eval_df.index.time == datetime.time(9),"feeding"] = 1
+            #         eval_df.loc[eval_df.index.time == datetime.time(12),"feeding"] = 1
+            #         eval_df.loc[eval_df.index.time == datetime.time(16),"feeding"] = 1
+            #         train = eval_df[:-nobs]
+            #         test = eval_df[-nobs:]
+            #         modelx = SARIMAX(train[selected_data], exog=train["feeding"], order=(2,0,1), seasonal_order=(1,0,2,nobs)).fit()
+            #     exog = test[["feeding"]]
+            #     predictionx = modelx.get_prediction(start=s, end=e, exog=exog)
+            #     st.write(predictionx.summary_frame())
             #forecast wtih SARIMAX
             #forecast with Prophet
             #forecast with LSTM
