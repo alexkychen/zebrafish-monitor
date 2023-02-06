@@ -259,4 +259,4 @@ if __name__ == "__main__":
     #ADF test
     adf_test(df, selected_data)
     #model evaluation
-    model_evaluations(df, start_date, end_date, freq, selected_data)
+    #model_evaluations(df, start_date, end_date, freq, selected_data)
