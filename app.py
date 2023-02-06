@@ -18,7 +18,8 @@ st.write("""<style>
             </style>""", unsafe_allow_html = True)
 
 st.title("Zebrafish Activity Data Viewer")
-st.text("Demonstration of data analyses for Zebrafish Activity Monitor System")
+st.info("""~ Welcome to the demonstration of data analyses for Zebrafish Activity Monitor System.
+        Please use left side bar to select data and parameters for analysis.""", icon="🐟")
 
 #display some info at the bottom of side bar
 def site_info():
@@ -140,6 +141,7 @@ def acf_pacf(df, selected_data):
     selected_lags = co1.number_input("Enter max. lags to plot", min_value=10, max_value=250, value=100)
     co1.caption("Y-axis: Correlation coefficient")
     co1.caption("X-axis: Lag number")
+    plot_acf(df[selected_data], lags=selected_lags)
     try:
         acf = plot_acf(df[selected_data], lags=selected_lags)
         #co2.pyplot(plot_acf(df[selected_data], lags=selected_lags))
