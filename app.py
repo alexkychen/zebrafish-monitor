@@ -10,6 +10,10 @@ import plotly.graph_objects as go
 from statsmodels.tsa.seasonal import seasonal_decompose
 from statsmodels.tsa.stattools import adfuller
 from statsmodels.graphics.tsaplots import plot_acf, plot_pacf
+from statsmodels.tsa.statespace.sarimax import SARIMAX
+from statsmodels.tools.eval_measures import rmse
+import datetime
+from prophet import Prophet
 
 st.set_page_config(page_title="Stability Dashboard", layout="wide")
 st.write("""<style>
@@ -18,8 +22,8 @@ st.write("""<style>
             </style>""", unsafe_allow_html = True)
 
 st.title("Zebrafish Activity Data Viewer")
-st.info("""~ Welcome to the demonstration of data analyses for Zebrafish Activity Monitor System.
-        Please use left side bar to select data and parameters for analysis.""", icon="🐟")
+st.info("""~ Welcome to the demonstration of time series data analysis for Zebrafish Activity Monitor System.
+        Please use the left side bar to select data and parameters for analysis.""", icon="🐟")
 
 #display some info at the bottom of side bar
 def site_info():
@@ -74,11 +78,12 @@ def subset_data(df, start_date, end_date, freq):
     #resample for mean count
     period = str(freq)+"T"
     df = df.resample(period).mean()
+    df.interpolate(method="linear", inplace=True)
 
     return df, start, end, period
 
 #create main plot
-def main_plot(df, freq, choices, vlines):
+def main_plot(df, freq, choices, vlines, start, end):
     #create Y label text
     if freq == 1:
         ylab = "Count per minute"
@@ -154,7 +159,11 @@ def acf_pacf(df, selected_data):
 def adf_test(df, selected_data):
     st.subheader("Augmented Dicky-Fuller Test")
     #st.markdown("Null hypothesis: time series has a unit root.")
-    adftest = adfuller(df[selected_data], autolag="AIC")
+    try:
+        adftest = adfuller(df[selected_data], autolag="AIC")
+    except:
+        st.error("Error: Unable to perform ADF test. Please re-select data or adjust parameters.")
+        st.stop()
     teststats, pvalue, lags, nobs = format(adftest[0], ".5g"), format(adftest[1], ".4g"), adftest[2], adftest[3]
     crit1, crit5, crit10 = adftest[4]["1%"], adftest[4]["5%"], adftest[4]["10%"]
     co1, co2, co3 = st.columns((1,1,2))
@@ -181,8 +190,57 @@ def adf_test(df, selected_data):
             Applying differencing to time series is not required for ARIMA based models.""")
 
 #Evalulate forecasting model performance
-def model_evaluations():
-    st.header("Forecasting model performance evaluations")
+def model_evaluations(df, start_date, end_date, freq, selected_data):
+    st.header("Evaluation of forecasting models")
+    model_options = ["SARIMA","SARIMAX", "Prophet", "LSTM"]
+    first_test_date = start_date + timedelta(days=5)
+    with st.form("model evaluations"):
+        models = st.multiselect("Select models", model_options)
+        try:
+            testdate = st.date_input("Select a test date", value=first_test_date, min_value=first_test_date, max_value=end_date)
+            eval_first_date =  testdate - timedelta(days=5)
+            testdate = testdate + timedelta(days=1)
+            eval_df = df[(df.index >= eval_first_date.strftime("%Y-%m-%d")) & (df.index <= testdate.strftime("%Y-%m-%d"))]
+        except:
+            st.error("Error: please select wider range of start and end dates (at least a 6-day range).")
+        #Resample data if freq < 15
+        if freq < 15:
+            eval_df = eval_df.resample("15T").mean()
+            resample_freq = 15
+            st.info("Resample frequency was set to 15 minutes for mean count", icon="👉")
+        else:
+            resample_freq = freq
+
+        if st.form_submit_button("Submit"):
+            #split train and test data
+            nobs = int(1440/resample_freq)
+            train = eval_df[:-nobs]
+            test = eval_df[-nobs:]
+            #st.write(train)
+            #st.write(test)
+            s = len(train)
+            e = len(train) + len(test) - 1
+            #forecast with SARIMA
+            if "SARIMA" in models:
+                with st.spinner("Training a SARIMA model...it may take a while...please wait."):
+                    model = SARIMAX(train[selected_data], order=(2,0,1), seasonal_order=(1,0,2,nobs)).fit()
+                prediction = model.get_prediction(start=s, end=e)
+                st.write(prediction.summary_frame())
+            if "SARIMAX" in models:
+                with st.spinner("Training a SARIMAX model...it may take a moment...please wait."):
+                    eval_df["feeding"] = [0]*len(eval_df)
+                    eval_df.loc[eval_df.index.time == datetime.time(9),"feeding"] = 1
+                    eval_df.loc[eval_df.index.time == datetime.time(12),"feeding"] = 1
+                    eval_df.loc[eval_df.index.time == datetime.time(16),"feeding"] = 1
+                    train = eval_df[:-nobs]
+                    test = eval_df[-nobs:]
+                    modelx = SARIMAX(train[selected_data], exog=train["feeding"], order=(2,0,1), seasonal_order=(1,0,2,nobs)).fit()
+                exog = test[["feeding"]]
+                predictionx = modelx.get_prediction(start=s, end=e, exog=exog)
+                st.write(predictionx.summary_frame())
+            #forecast wtih SARIMAX
+            #forecast with Prophet
+            #forecast with LSTM
 
 if __name__ == "__main__":
     #read data
@@ -193,10 +251,12 @@ if __name__ == "__main__":
     df, start, end, period = subset_data(df, start_date, end_date, freq)
 
     #create main plot
-    main_plot(df, freq, choices, vlines)
+    main_plot(df, freq, choices, vlines, start, end)
     #ETS decomposition
     selected_data = ets_decomposition(df, choices, freq)
     #ACF and PACF
     acf_pacf(df, selected_data)
     #ADF test
     adf_test(df, selected_data)
+    #model evaluation
+    model_evaluations(df, start_date, end_date, freq, selected_data)
