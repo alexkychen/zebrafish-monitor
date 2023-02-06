@@ -13,9 +13,8 @@ from statsmodels.graphics.tsaplots import plot_acf, plot_pacf
 from statsmodels.tsa.statespace.sarimax import SARIMAX
 from statsmodels.tools.eval_measures import rmse
 import datetime
-from prophet import Prophet
 
-st.set_page_config(page_title="Stability Dashboard", layout="wide")
+st.set_page_config(page_title="Zebrafish Activity Data Viewer", layout="wide")
 st.write("""<style>
             div.block-container{padding-top:0rem;}
             div[data-testid="stMetricValue"] > div {font-size: 0.6rem;}

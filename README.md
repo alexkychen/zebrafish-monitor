@@ -24,9 +24,9 @@ From the above plot, the data exhibits a clear seasonal pattern or repeating pat
 | description | value |
 |---|---|
 | test statistic | -4.34 |
-| *p*-value | 0.000382 |
+| *p*-value | 0.000395 |
 | # lag used | 1 |
-| number of obs. | 575 |
+| number of obs. | 574 |
 | Critical value (1%) | -3.44 |
 | Critical value (5%) | -2.87 |
 | Critical value (10%)| -2.57 |
