@@ -37,7 +37,7 @@ Note: ADF test null hypothesis: time series has a root unit and is non-stationar
 ![](pic/ACF_PACF.png)
 ACF and PACF helps us to determine the order of MA component and the order of AR component in an ARIMA model. The results of ACF plot show the time series has a seasonal cycle at 96 lags and the correlation of data and its lagged version gradually converged, indicating the q term for an ARIMA model could be small, where as the PACF plot shows a significant drop at lag 2, indicating the p term for an ARIMA model could 1 or 2. Regardless, the optimal p and q terms of an ARIMA model can be determined using grid search and AIC scores.   
 
-## Forecast future activity
+## Model evaluations
 
 ### Split data into training and test sets
 ![](pic/datasplit.png)
@@ -45,15 +45,16 @@ To develop forecasting models and evaluate model performance, I used a time-seri
 
 Using a rolling window approach allows you to train and test the model on different parts of the data, which helps to reduce overfitting and improve the robustness of the model. The size of the window (i.e. 5 days) will impact the accuracy of the model, so it may be necessary to experiment with different window sizes to find the best results. Additionally, by using a rolling window approach, you can assess the model's performance over multiple time periods and assess its ability to generalize to future data.
 
-### Forecast via SARIMA
-
-### Forecast via SARIMAX
-
-### Forecast via Prophet
-
-### Forecast via LSTM
-
 ### Comparison of model performance
+![](pic/TestResult_ModelCompare.gif)
+The above plot shows an example of using 4 different models (SARIMA, SARIMAX, Prophet and XGBoost) trained by the data between August 11th and 15th to forecast zebrafish activity on the 16th of August. The root mean square error (RMSE) of predicted values from each model is as follows. 
+
+| model | RMSE | training speed |
+| --- | --- | --- |
+| SARIMA(1,0,2)(2,0,1,96) | 7.143 | slow |
+| SARIMAX(1,0,2)(2,0,1,96)| 5.198 | slow |
+| FB Prophet | 7.694 | fast |
+| XGBoost | 5.525 | fast |
 
 ### Forecast into the future
 
