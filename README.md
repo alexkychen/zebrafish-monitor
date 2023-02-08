@@ -47,7 +47,7 @@ Using a rolling window approach allows you to train and test the model on differ
 
 ### Comparison of model performance
 ![](pic/TestResult_ModelCompare.gif)
-The above plot shows an example of using 4 different models (SARIMA, SARIMAX, Prophet and XGBoost) trained by the data between August 11th and 15th to forecast zebrafish activity on the 16th of August. The root mean square error (RMSE) of predicted values from each model is as follows. 
+The above plot shows an example of using 4 different models (SARIMA, SARIMAX, Prophet and XGBoost) trained by the data between August 11th and 15th to forecast zebrafish activity on the 16th of August. The root mean square error (RMSE) of predicted values from each model is as follows.
 
 | model | RMSE | training speed |
 | --- | --- | --- |

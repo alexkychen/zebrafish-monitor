@@ -27,6 +27,8 @@ st.info("""~ Welcome to the demonstration of time series data analysis for Zebra
 #display some info at the bottom of side bar
 def site_info():
     st.markdown("---")
+    github = "[![Github](https://badgen.net/badge/icon/GitHub?icon=github&label)](https://github.com/alexkychen/zebrafish-monitor)"
+    st.markdown(github)
     st.markdown("Developer: Alex Chen ([Contact me](mailto:alexkychen@gmail.com))")
     st.markdown("Copyright © 2023")
 

@@ -10,12 +10,14 @@ st.write("""<style>
             div[data-testid="stMetricValue"] > div {font-size: 0.6rem;}
             </style>""", unsafe_allow_html = True)
 
-st.title("Predicted result comparison")
+st.title("Model performance comparison")
 st.info("""The plot below shows true values of test data against predicted values (select models on the side bar).
             Each model was trained with the previous 5 days of data and make predictions on the 6th day.""", icon="ℹ️")
 
 def site_info():
     st.markdown("---")
+    github = "[![Github](https://badgen.net/badge/icon/GitHub?icon=github&label)](https://github.com/alexkychen/zebrafish-monitor)"
+    st.markdown(github)
     st.markdown("Developer: Alex Chen ([Contact me](mailto:alexkychen@gmail.com))")
     st.markdown("Copyright © 2023")
 
