@@ -56,6 +56,13 @@ The above plot shows an example of using 4 different models (SARIMA, SARIMAX, Pr
 | FB Prophet | 7.694 | fast |
 | XGBoost | 5.525 | fast |
 
-### Forecast into the future
+### Forecast future activity
+![XGBoost](pic/XGBoost_forecast.gif)
+The plot above depicts the animated forecast of zebrafish activity for August 16th. The 95% confidence intervals illustrated in the plot are used to detect outliers of the mean counts, which could signify unusual behavior. In reality, only the lower bound might be used to determine if there has been a significant decrease in activity throughout the day, as this could be an indication of potential fish health problems or insufficient food supply.
 
-## Conclusions
+Animations of forecasting activity of other models can be viewed in the web app.
+- Streamlit server: https://zebrafish-monitor.streamlit.app/Forecast
+- Render server: https://zebrafish-monitor.onrender.com/Forecast
+
+## Going forward
+This project has great potential for further development and implementation. The proof of concept has shown the viability of using the Zebrafish Activity Monitoring System for quantifying and collecting zebrafish activity data. Further trials from different labs and facilities can provide more robust evidence of the benefits of using this system, and help to refine and improve the technology. Additionally, this system can be used as a tool for conducting various experiments to explore the impact of different treatments on zebrafish behavior. The findings from these experiments could lead to a deeper understanding of zebrafish biology and could be applied to other related fields, such as environmental toxicology, pharmacology, and neuroscience. The potential impact of this project is significant, and the future looks bright for the continued development and application of the Zebrafish Activity Monitoring System.

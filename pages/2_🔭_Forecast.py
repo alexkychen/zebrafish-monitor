@@ -6,6 +6,7 @@ import plotly.express as px
 from plotly.subplots import make_subplots
 import plotly.graph_objs as go
 import time
+from datetime import timedelta
 
 st.set_page_config(page_title="Zebrafish Activity Forecast", layout="wide")
 st.write("""<style>
@@ -58,6 +59,10 @@ def draw_plot(df, model):
                 "Prophet": ["Predicted_Prophet","Prophet_upper","Prophet_lower"],
                 "XGBoost": ["Predicted_XGBoost","XGBoost_upper","XGBoost_lower"]}
 
+    #set up start and end point for plot's x-axis
+    start = df.index.min()
+    end = df.index.max()
+
     for i in range(96):
 
         dfcopy.iloc[385+i,] = df.iloc[385+i,]
@@ -86,6 +91,7 @@ def draw_plot(df, model):
             line_color = "gray",
             name = "True values"
         ))
+        fig.update_xaxes(range=(start, end + timedelta(hours=2)))
         container.plotly_chart(fig, use_container_width=True)
         time.sleep(0.003)
 
