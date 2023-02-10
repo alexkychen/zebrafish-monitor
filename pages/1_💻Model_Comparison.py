@@ -12,7 +12,7 @@ st.write("""<style>
 
 st.title("Model performance comparison")
 st.info("""The plot below shows true values of test data against predicted values (select models on the side bar).
-            Each model was trained with the previous 5 days of data and make predictions on the 6th day.""", icon="ℹ️")
+            Each model was trained with the previous 5 days of data and make predictions on the 6th day.""", icon="🔎")
 
 def site_info():
     st.markdown("---")
