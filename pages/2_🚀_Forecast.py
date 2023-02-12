@@ -33,7 +33,7 @@ def site_info():
 
 @st.cache(allow_output_mutation=True)
 def read_data():
-    df = pd.read_csv("data/forecast2.csv", index_col=0)
+    df = pd.read_csv("data/forecast.csv", index_col=0)
     df.index = pd.to_datetime(df.index)
     return df
 
