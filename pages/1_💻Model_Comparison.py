@@ -25,6 +25,7 @@ def site_info():
 @st.cache
 def read_data(filepath):
     df = pd.read_csv(filepath, index_col=0)
+    df.index = pd.to_datetime(df.index)
     model_options = df.columns[1:]
     return df, model_options
 
@@ -49,7 +50,7 @@ def sidebar_param(model_options):
 
 #display main plot
 def main_plot(model_select, vlines, plot_type):
-    choices = ["True"]
+    choices = ["TRUE"]
     choices += model_select
     label_name = {"index":"Date/Time","value":"Mean count of every 15 minutes", "variable":"True vs. predicted"}
 
@@ -70,13 +71,13 @@ def main_plot(model_select, vlines, plot_type):
     st.plotly_chart(fig, use_container_width=True)
 
 def show_rmse(model_select):
-    true_mean = df["True"].mean()
+    true_mean = df["TRUE"].mean()
     true_mean = round(true_mean,3)
     st.markdown(f"**True value mean**: {true_mean}")
     if len(model_select) > 0:
         st.markdown("#### Model performance measures with RMSE:")
     for model in model_select:
-        error = rmse(df["True"], df[model])
+        error = rmse(df["TRUE"], df[model])
         error = round(error, 3)
         st.markdown(f'**{model}**: {error}')
 

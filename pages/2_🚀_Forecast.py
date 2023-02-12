@@ -148,10 +148,6 @@ def detect_outlier(forecast_df):
         co1.info("No outlier was found.", icon="👌")
 
 
-
-
-
-
 if __name__ == "__main__":
     df = read_data()
     model, alpha = sidebar_param()
