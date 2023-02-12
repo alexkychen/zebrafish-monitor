@@ -152,7 +152,7 @@ def acf_pacf(df, selected_data):
     except:
         co2.error("Error: Can't generate ACF plot. Please re-select data or adjust parameters")
     try:
-        co3.pyplot(plot_pacf(df[selected_data], lags=selected_lags))
+        co3.pyplot(plot_pacf(df[selected_data], lags=selected_lags, method="ywm"))
     except:
         co3.error("Error: Can't generate PACF plot. Please re-select data or adjust parameters")
 

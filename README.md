@@ -51,9 +51,9 @@ The above plot shows an example of using 4 different models (SARIMA, SARIMAX, Pr
 
 | model | RMSE | training speed |
 | --- | --- | --- |
-| SARIMA(1,0,2)(2,0,1,96) | 7.143 | slow |
-| SARIMAX(1,0,2)(2,0,1,96)| 5.198 | slow |
-| FB Prophet | 7.694 | fast |
+| SARIMA | 7.143 | slow |
+| SARIMAX| 5.198 | slow |
+| FB Prophet | 6.658 | fast |
 | XGBoost | 5.525 | fast |
 
 ### Forecast future activity
