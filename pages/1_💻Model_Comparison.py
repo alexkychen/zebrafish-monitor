@@ -14,6 +14,17 @@ st.title("Model performance comparison")
 st.info("""The plot below shows true values of test data against predicted values (select models on the side bar).
             Each model was trained with the previous 5 days of data and make predictions on the 6th day.""", icon="🔎")
 
+#customize plot download config
+config = {
+  'toImageButtonOptions': {
+    'format': 'png', # one of png, svg, jpeg, webp
+    'filename': 'model_comparison',
+    'height': 450,
+    'width': 800,
+    'scale':6 # Multiply title/legend/axis/canvas sizes by this factor
+  }
+}
+
 def site_info():
     st.markdown("---")
     github = "[![Github](https://badgen.net/badge/icon/GitHub?icon=github&label)](https://github.com/alexkychen/zebrafish-monitor)"
@@ -68,7 +79,7 @@ def main_plot(model_select, vlines, plot_type):
     if vlines[2]:
         fig.add_vline(x="2021-08-16 16:00", line_color="gray")
 
-    st.plotly_chart(fig, use_container_width=True)
+    st.plotly_chart(fig, use_container_width=True, config=config)
 
 def show_rmse(model_select):
     true_mean = df["TRUE"].mean()
