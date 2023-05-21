@@ -1,0 +1,42 @@
+name: Trigger auto deployment for zebrafish-monitor-capp
+
+# When this action will be executed
+on:
+  # Automatically trigger it when detected changes in repo
+  push:
+    branches: 
+      [ main ]
+    paths:
+    - '**'
+    - '.github/workflows/zebrafish-monitor-capp-AutoDeployTrigger-cef721a6-178e-4486-a779-502f9daa921b.yml'
+
+  # Allow mannually trigger 
+  workflow_dispatch:
+      
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout to the branch
+        uses: actions/checkout@v2
+
+      - name: Azure Login
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.ZEBRAFISHMONITORCAPP_AZURE_CREDENTIALS }}
+
+      - name: Build and push container image to registry
+        uses: azure/container-apps-deploy-action@v1
+        with:
+          appSourcePath: ${{ github.workspace }} 
+          registryUrl: ca6dd0e3747eacr.azurecr.io
+          registryUsername: ${{ secrets.ZEBRAFISHMONITORCAPP_REGISTRY_USERNAME }}
+          registryPassword: ${{ secrets.ZEBRAFISHMONITORCAPP_REGISTRY_PASSWORD }}
+          containerAppName: zebrafish-monitor-capp
+          resourceGroup: appservice_eastus_F1_rg
+          imageToBuild: ca6dd0e3747eacr.azurecr.io/zebrafish-monitor-capp:${{ github.sha }}
+          
+
+     
+
