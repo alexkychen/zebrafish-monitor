@@ -9,6 +9,8 @@ on:
     paths:
     - '**'
     - '.github/workflows/zebrafish-monitor-capp-AutoDeployTrigger-cef721a6-178e-4486-a779-502f9daa921b.yml'
+    paths-ignore:
+      - '**/*.md'
 
   # Allow mannually trigger 
   workflow_dispatch:
