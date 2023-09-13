@@ -1,0 +1,11 @@
+# ignore virtual environment
+venv
+.venv
+
+# ignore md files
+*.md
+
+# ignore others
+.ipynb_checkpoints
+*.ipynb
+.gitignore

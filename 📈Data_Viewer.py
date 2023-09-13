@@ -13,9 +13,8 @@ from statsmodels.graphics.tsaplots import plot_acf, plot_pacf
 from statsmodels.tsa.statespace.sarimax import SARIMAX
 from statsmodels.tools.eval_measures import rmse
 import datetime
-from prophet import Prophet
 
-st.set_page_config(page_title="Stability Dashboard", layout="wide")
+st.set_page_config(page_title="Zebrafish Activity Data Viewer", layout="wide")
 st.write("""<style>
             div.block-container{padding-top:0rem;}
             div[data-testid="stMetricValue"] > div {font-size: 0.6rem;}
@@ -28,6 +27,8 @@ st.info("""~ Welcome to the demonstration of time series data analysis for Zebra
 #display some info at the bottom of side bar
 def site_info():
     st.markdown("---")
+    github = "[![Github](https://badgen.net/badge/icon/GitHub?icon=github&label)](https://github.com/alexkychen/zebrafish-monitor)"
+    st.markdown(github)
     st.markdown("Developer: Alex Chen ([Contact me](mailto:alexkychen@gmail.com))")
     st.markdown("Copyright © 2023")
 
@@ -151,7 +152,7 @@ def acf_pacf(df, selected_data):
     except:
         co2.error("Error: Can't generate ACF plot. Please re-select data or adjust parameters")
     try:
-        co3.pyplot(plot_pacf(df[selected_data], lags=selected_lags))
+        co3.pyplot(plot_pacf(df[selected_data], lags=selected_lags, method="ywm"))
     except:
         co3.error("Error: Can't generate PACF plot. Please re-select data or adjust parameters")
 
@@ -189,58 +190,13 @@ def adf_test(df, selected_data):
             We can reject null hypothesis, and time series is considered as stationary.
             Applying differencing to time series is not required for ARIMA based models.""")
 
-#Evalulate forecasting model performance
-def model_evaluations(df, start_date, end_date, freq, selected_data):
-    st.header("Evaluation of forecasting models")
-    model_options = ["SARIMA","SARIMAX", "Prophet", "LSTM"]
-    first_test_date = start_date + timedelta(days=5)
-    with st.form("model evaluations"):
-        models = st.multiselect("Select models", model_options)
-        try:
-            testdate = st.date_input("Select a test date", value=first_test_date, min_value=first_test_date, max_value=end_date)
-            eval_first_date =  testdate - timedelta(days=5)
-            testdate = testdate + timedelta(days=1)
-            eval_df = df[(df.index >= eval_first_date.strftime("%Y-%m-%d")) & (df.index <= testdate.strftime("%Y-%m-%d"))]
-        except:
-            st.error("Error: please select wider range of start and end dates (at least a 6-day range).")
-        #Resample data if freq < 15
-        if freq < 15:
-            eval_df = eval_df.resample("15T").mean()
-            resample_freq = 15
-            st.info("Resample frequency was set to 15 minutes for mean count", icon="👉")
-        else:
-            resample_freq = freq
+#Predicted result comparison among models
+def compare_result(filepath):
+    dfr = pd.read_csv(filepath, index_col=0)
+    model_options = dfr.columns[1:]
+    model_select = st.multiselect("Select models", model_options)
 
-        if st.form_submit_button("Submit"):
-            #split train and test data
-            nobs = int(1440/resample_freq)
-            train = eval_df[:-nobs]
-            test = eval_df[-nobs:]
-            #st.write(train)
-            #st.write(test)
-            s = len(train)
-            e = len(train) + len(test) - 1
-            #forecast with SARIMA
-            # if "SARIMA" in models:
-            #     with st.spinner("Training a SARIMA model...it may take a while...please wait."):
-            #         model = SARIMAX(train[selected_data], order=(2,0,1), seasonal_order=(1,0,2,nobs)).fit()
-            #     prediction = model.get_prediction(start=s, end=e)
-            #     st.write(prediction.summary_frame())
-            # if "SARIMAX" in models:
-            #     with st.spinner("Training a SARIMAX model...it may take a moment...please wait."):
-            #         eval_df["feeding"] = [0]*len(eval_df)
-            #         eval_df.loc[eval_df.index.time == datetime.time(9),"feeding"] = 1
-            #         eval_df.loc[eval_df.index.time == datetime.time(12),"feeding"] = 1
-            #         eval_df.loc[eval_df.index.time == datetime.time(16),"feeding"] = 1
-            #         train = eval_df[:-nobs]
-            #         test = eval_df[-nobs:]
-            #         modelx = SARIMAX(train[selected_data], exog=train["feeding"], order=(2,0,1), seasonal_order=(1,0,2,nobs)).fit()
-            #     exog = test[["feeding"]]
-            #     predictionx = modelx.get_prediction(start=s, end=e, exog=exog)
-            #     st.write(predictionx.summary_frame())
-            #forecast wtih SARIMAX
-            #forecast with Prophet
-            #forecast with LSTM
+
 
 if __name__ == "__main__":
     #read data
@@ -258,5 +214,3 @@ if __name__ == "__main__":
     acf_pacf(df, selected_data)
     #ADF test
     adf_test(df, selected_data)
-    #model evaluation
-    #model_evaluations(df, start_date, end_date, freq, selected_data)
